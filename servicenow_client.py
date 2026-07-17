@@ -26,11 +26,10 @@ class ServiceNowClient:
 
         if response.status_code == 201:
          
-            result = response.json()["result"]
-
-        return result
+            return response.json()["result"]
 
         raise Exception(response.text)
+    
     
     
     def get_incident(self, incident_number):
@@ -39,7 +38,7 @@ class ServiceNowClient:
         url = f"{INSTANCE}/api/now/table/incident"
         params = {
             "sysparm_query": f"number={incident_number}",
-            "sysparm_fields": "number,short_description,description,state"
+            "sysparm_fields": "sys_id,number,short_description,description,state,urgency"
         }
        
         response = requests.get(
@@ -61,5 +60,28 @@ class ServiceNowClient:
             return result[0]
 
         raise Exception(response.text)
+    
+    def patch_incident(self,sysid, payload):
+
+     
+        url = f"{INSTANCE}/api/now/table/incident/{sysid}"
+
+    
+        response = requests.patch(
+            url,
+            auth=(USERNAME, PASSWORD),
+            json=payload,
+            headers={
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        )
+        
+        if response.status_code == 200:
+         
+            return response.json()["result"]
+
+        raise Exception(response.text)
+    
     
     
