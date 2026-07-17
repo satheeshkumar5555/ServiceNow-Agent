@@ -8,7 +8,7 @@ A Python application that integrates with ServiceNow using REST APIs.
 
 - ✅ Create Incident
 - ✅ Retrieve Incident
-- 🚧 Update Incident (Coming Soon)
+- ✅ Update Incident
 - 🚧 Close Incident (Coming Soon)
 
 ---
