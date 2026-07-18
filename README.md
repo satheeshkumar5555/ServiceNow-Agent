@@ -1,94 +1,94 @@
-# 🚀 ServiceNow Agent
+# ServiceNow Incident Management Assistant
 
-A Python application that integrates with ServiceNow using REST APIs.
+A Python-based command-line application that integrates with the ServiceNow REST API to perform common Incident Management operations.
 
----
-
-## ✨ Features
-
-- ✅ Create Incident
-- ✅ Retrieve Incident
-- ✅ Update Incident
-- 🚧 Close Incident (Coming Soon)
-
----
-
-## 🛠 Technologies Used
-
+This project was built as a hands-on learning exercise to understand:
+- REST APIs
+- HTTP methods (GET, POST, PATCH)
 - Python
 - ServiceNow Table API
-- REST API
-- Requests Library
-- Git
-- GitHub
+- Building reusable API clients
+- Preparing tools for future LLM integration
 
 ---
 
-## 📂 Project Structure
+## Features
 
-```
-ServiceNow-Agent/
-│
-├── app.py
-├── servicenow_client.py
-├── config.py
-├── requirements.txt
-├── README.md
-└── .gitignore
-```
+✅ Create Incident
 
----
+✅ View Incident
 
-## ▶️ How to Run
+✅ Update Incident
+- Short Description
+- Description
+- Urgency
 
-1. Clone the repository
+✅ Add Work Notes
 
-```bash
-git clone https://github.com/satheeshkumar5555/ServiceNow-Agent.git
-```
+✅ Add Customer Comments
 
-2. Install dependencies
+✅ Resolve Incident
+- Resolution Code Selection
+- Resolution Notes
 
-```bash
-pip install -r requirements.txt
-```
+✅ Close Incident
 
-3. Configure your ServiceNow credentials
+✅ Input Validation
 
-4. Run
-
-```bash
-python app.py
-```
+✅ Reusable PATCH implementation
 
 ---
 
-## 📸 Sample Output
+## Project Structure
 
 ```
-==============================
-ServiceNow Assistant
-==============================
-
-1. Create Incident
-2. View Incident
-3. Exit
+app.py
+config.py
+servicenow_client.py
+requirements.txt
+README.md
 ```
 
 ---
 
-## 📅 Project Roadmap
+## Technologies
 
-- [x] Create Incident
-- [x] Retrieve Incident
-- [ ] Update Incident
-- [ ] Close Incident
-- [ ] Search Incidents
-- [ ] Amazon Bedrock Integration
-- [ ] AI Chatbot
+- Python
+- requests
+- ServiceNow Table API
 
 ---
 
-## 👨‍💻 Author
+## REST APIs Used
 
-Satheesh Kumar
+| Operation | Method |
+|-----------|--------|
+| Create Incident | POST |
+| View Incident | GET |
+| Update Incident | PATCH |
+
+---
+
+## Learning Outcomes
+
+During this project I learned:
+
+- Python fundamentals
+- Object-Oriented Programming
+- REST API integration
+- JSON payload construction
+- HTTP request handling
+- Error handling
+- ServiceNow Incident lifecycle
+- Designing reusable API functions
+
+---
+
+## Future Enhancements
+
+- Retrieve Resolution Codes dynamically
+- Search incidents
+- Delete incidents (optional)
+- Attachment support
+- Authentication improvements
+- LLM / AI Agent integration
