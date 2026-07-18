@@ -7,9 +7,9 @@ load_dotenv()
 # ServiceNow Configuration
 # ==============================
 
-INSTANCE = os.getenv("INSTANCE")
-USERNAME = os.getenv("USERNAME")
-PASSWORD = os.getenv("PASSWORD")
+INSTANCE = os.getenv("SERVICENOW_INSTANCE")
+USERNAME = os.getenv("SERVICENOW_USERNAME")
+PASSWORD = os.getenv("SERVICENOW_PASSWORD")
 
 # ==============================
 # Amazon Bedrock Configuration

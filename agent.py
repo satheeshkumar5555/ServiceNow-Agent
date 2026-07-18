@@ -18,22 +18,47 @@ class ServiceNowAgent:
 
         raise ValueError(f"Unknown tool: {tool_name}")
 
-    from bedrock_tools import CREATE_INCIDENT_TOOL
+    def chat(self, user_message, messages):
 
-    def chat(self, user_message):
-
-        messages = [{"role": "user", "content": [{"text": user_message}]}]
-
+        messages.append({"role": "user", "content": [{"text": user_message}]})
         response = self.llm.converse(messages=messages, tools=[CREATE_INCIDENT_TOOL])
 
-        if response["stopReason"] == "tool_use":
+        assistant_message = response["output"]["message"]
 
-            tool = response["output"]["message"]["content"][0]["toolUse"]
+        messages.append(assistant_message)
 
-            result = self.execute_tool(tool["name"], tool["input"])
+        tool = None
 
-            print(f"Incident created: {result['number']}")
+        for block in assistant_message["content"]:
+            if "toolUse" in block:
+                tool = block["toolUse"]
+                break
 
-            return "Tool executed successfully."
+        # No tool requested - just return the assistant's text
+        if tool is None:
+            return assistant_message["content"][0]["text"]
 
-        return response["output"]["message"]["content"][0]["text"]
+        # Tool requested
+        result = self.execute_tool(tool["name"], tool["input"])
+
+        messages.append(
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "toolResult": {
+                            "toolUseId": tool["toolUseId"],
+                            "content": [{"json": result}],
+                        }
+                    }
+                ],
+            }
+        )
+
+        final_response = self.llm.converse(
+            messages=messages, tools=[CREATE_INCIDENT_TOOL]
+        )
+
+        messages.append(final_response["output"]["message"])
+
+        return final_response["output"]["message"]["content"][0]["text"]
