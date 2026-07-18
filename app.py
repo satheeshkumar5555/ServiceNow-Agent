@@ -72,18 +72,6 @@ try:
             print("Incident Found!")
             print("----------------------------------")
 
-            resolution_codes = {
-                "1": "Duplicate",
-                "2": "Known error",
-                "3": "No resolution provided",
-                "4": "Resolved by caller",
-                "5": "Resolved by change",
-                "6": "Resolved by problem",
-                "7": "Resolved by request",
-                "8": "Solution provided",
-                "9": "Workaround provided",
-                "10": "User error",
-            }
             try:
                 subchoice = int(input("""
 
@@ -101,10 +89,7 @@ try:
                 if subchoice == 1:
                     print("Current Short Description :", incident["short_description"])
                     newshort = input("New Short Description : ")
-                    payload = {"short_description": newshort}
-
-                    client.patch_incident(sysid, payload)
-
+                    client.update_short_description(sysid, newshort)
                     incident = client.get_incident(incident_number)
                     print(
                         "Done!. New Short Description :", incident["short_description"]
@@ -113,9 +98,7 @@ try:
                 elif subchoice == 2:
                     print("Current Description :", incident["description"])
                     newdesc = input("New Description : ")
-                    payload = {"description": newdesc}
-
-                    client.patch_incident(sysid, payload)
+                    client.update_description(sysid, newdesc)
 
                     incident = client.get_incident(incident_number)
                     print("Done!. New Description :", incident["description"])
@@ -123,49 +106,25 @@ try:
                 elif subchoice == 3:
                     print("Current Urgency :", incident["urgency"])
                     newurg = input("New Urgency: ")
-                    payload = {"urgency": newurg}
-
-                    client.patch_incident(sysid, payload)
-
+                    client.update_urgency(sysid, newurg)
                     incident = client.get_incident(incident_number)
                     print("Done!. New Urgency :", incident["urgency"])
                 elif subchoice == 4:
                     work_note = input("Enter Work Notes: ")
 
-                    payload = {"work_notes": work_note}
-
-                    client.patch_incident(sysid, payload)
+                    client.add_work_notes(sysid, work_note)
                     print("Work Notes added successfully.")
 
                 elif subchoice == 5:
                     customer_comment = input("Enter Customer Comment: ")
-
-                    payload = {"comments": customer_comment}
-                    client.patch_incident(sysid, payload)
+                    client.add_customer_comments(sysid, customer_comment)
                     print("Customer Comment added successfully.")
 
                 elif subchoice == 6:
 
-                    print("\nResolution Codes")
-
-                    for key, value in resolution_codes.items():
-                        print(f"{key}. {value}")
-
-                    code_choice = input("\nSelect Resolution Code: ")
-
-                    if code_choice not in resolution_codes:
-                        print("Invalid Resolution Code.")
-                        exit()
-
                     resolve_notes = input("Resolution Notes: ")
-
-                    payload = {
-                        "state": "6",
-                        "close_code": resolution_codes[code_choice],
-                        "close_notes": resolve_notes,
-                    }
-
-                    client.patch_incident(sysid, payload)
+                    resolution_code = "Solution provided"
+                    client.resolve_incident(sysid, resolution_code, resolve_notes)
 
                     incident = client.get_incident(incident_number)
 
@@ -180,7 +139,7 @@ try:
                         "close_notes": close_notes,
                     }
 
-                    client.patch_incident(sysid, payload)
+                    client._patch_incident(sysid, payload)
 
                     incident = client.get_incident(incident_number)
 

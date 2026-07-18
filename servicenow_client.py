@@ -48,7 +48,7 @@ class ServiceNowClient:
 
         raise Exception(response.text)
 
-    def patch_incident(self, sysid, payload):
+    def _patch_incident(self, sysid, payload):
 
         url = f"{INSTANCE}/api/now/table/incident/{sysid}"
 
@@ -64,3 +64,45 @@ class ServiceNowClient:
             return response.json()["result"]
 
         raise Exception(response.text)
+
+    def update_short_description(self, sysid, short_description):
+
+        payload = {"short_description": short_description}
+
+        return self._patch_incident(sysid, payload)
+
+    def update_description(self, sysid, description):
+
+        payload = {"description": description}
+
+        return self._patch_incident(sysid, payload)
+
+    def update_urgency(self, sysid, urgency):
+
+        payload = {"urgency": urgency}
+
+        return self._patch_incident(sysid, payload)
+
+    def add_work_notes(self, sysid, work_note):
+
+        payload = {"work_notes": work_note}
+
+        return self._patch_incident(sysid, payload)
+
+    def add_customer_comments(self, sysid, comment):
+
+        payload = {"comments": comment}
+
+        return self._patch_incident(sysid, payload)
+
+    def resolve_incident(
+        self, sysid, resolution_code, resolution_notes, **extra_fields
+    ):
+
+        payload = {
+            "state": "6",
+            "close_code": resolution_code,
+            "close_notes": resolution_notes,
+        }
+        payload.update(extra_fields)
+        return self._patch_incident(sysid, payload)
